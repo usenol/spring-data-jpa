@@ -46,4 +46,10 @@ public class StudentControllerImpl implements IStudentController {
     public DTOStudent updateStudentById(@PathVariable Integer id, @RequestBody DTOStundentIU student) {
         return studentService.updateStudent(id, student);
     }
+
+    @GetMapping(path = "/getcoursebyid/{id}")
+    @Override
+    public DTOStudent getCourseByStudentId(@PathVariable Integer id) {
+        return studentService.getCourseByStudentId(id);
+    }
 }

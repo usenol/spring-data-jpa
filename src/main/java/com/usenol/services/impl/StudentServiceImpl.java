@@ -1,7 +1,9 @@
 package com.usenol.services.impl;
 
+import com.usenol.dto.DTOCourse;
 import com.usenol.dto.DTOStudent;
 import com.usenol.dto.DTOStundentIU;
+import com.usenol.entities.Course;
 import com.usenol.entities.Student;
 import com.usenol.repository.StudentRepository;
 import com.usenol.services.IStudentService;
@@ -66,6 +68,7 @@ public class StudentServiceImpl implements IStudentService {
     public DTOStudent updateStudent(Integer id, DTOStundentIU dtoStundentIU) {
         Optional<Student> optional = studentRepository.findById(id);
         DTOStudent dtoStudent = new DTOStudent();
+
         if (optional.isPresent()) {
             Student dbStudent = optional.get();
 
@@ -76,6 +79,29 @@ public class StudentServiceImpl implements IStudentService {
             Student updatedStudent = studentRepository.save(dbStudent);
             BeanUtils.copyProperties(updatedStudent, dtoStudent);
 
+            return dtoStudent;
+        }
+        return null;
+    }
+
+    @Override
+    public DTOStudent getCourseByStudentId(int id) {
+        DTOStudent dtoStudent = new DTOStudent();
+        Optional<Student> optional = studentRepository.findById(id);
+
+        if (optional.isPresent()) {
+            Student dbStudent = optional.get();
+            BeanUtils.copyProperties(dbStudent, dtoStudent);
+
+            List<Course> course = optional.get().getCourseList();
+            List<DTOCourse> courseList = new ArrayList<>();
+
+            for (Course course1 : course) {
+                DTOCourse dtoCourse = new DTOCourse();
+                BeanUtils.copyProperties(course1, dtoCourse);
+                courseList.add(dtoCourse);
+            }
+            dtoStudent.setCourseList(courseList);
             return dtoStudent;
         }
         return null;

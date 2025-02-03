@@ -14,4 +14,5 @@ public interface IStudentController {
     public DTOStudent getStudentById(@PathVariable Integer id);
     public void deleteStudentById(@PathVariable Integer id);
     public DTOStudent updateStudentById(@PathVariable Integer id, DTOStundentIU student);
+    public DTOStudent getCourseByStudentId(@PathVariable Integer id);
 }
